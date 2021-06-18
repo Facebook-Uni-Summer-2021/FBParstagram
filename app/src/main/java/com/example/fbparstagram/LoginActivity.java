@@ -22,6 +22,10 @@ public class LoginActivity extends AppCompatActivity {
     EditText etUsername;
     EditText etPassword;
 
+    /**
+     * Bind to matching xml and set controls to available widgets.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
             goToMainActivity();
         }
 
-        //Login user
+        //Login to Parse/Back4App
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

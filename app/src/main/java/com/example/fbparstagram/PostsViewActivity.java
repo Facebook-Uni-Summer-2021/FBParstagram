@@ -22,6 +22,10 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents the Instagram timeline, where you can view
+ * all posts made and saved in Parse/Back4App
+ */
 public class PostsViewActivity extends AppCompatActivity {
     private static final String TAG = "PostsViewActivity";
 
@@ -30,12 +34,17 @@ public class PostsViewActivity extends AppCompatActivity {
     RecyclerView rvPosts;
     List<Post> posts;
 
+    /**
+     * Defines RecyclerView information.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_view);
         Log.i(TAG, "in PostsViewActivity");
 
+        //Create SwipeRefreshListener
         srPosts = findViewById(R.id.srPosts);
         srPosts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -44,11 +53,13 @@ public class PostsViewActivity extends AppCompatActivity {
             }
         });
 
+        //Set color of refresh symbol
         srPosts.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        //Set all RecView information
         posts = new ArrayList<>();
         rvPosts = findViewById(R.id.rvPosts);
         adapter = new PostsAdapter(this, posts);
@@ -56,9 +67,15 @@ public class PostsViewActivity extends AppCompatActivity {
         rvPosts.setAdapter(adapter);
         rvPosts.setLayoutManager(new LinearLayoutManager(this));
 
+        //Get posts
         queryPosts();
     }
 
+    /**
+     * Create menu and menu items.
+     * @param menu The menu.
+     * @return Modified menu.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //Define meu items
@@ -66,6 +83,11 @@ public class PostsViewActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Handle clicking of items in menu.
+     * @param item The items in the menu.
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.mCompose) {
@@ -74,7 +96,12 @@ public class PostsViewActivity extends AppCompatActivity {
             startActivity(intent);
         } else if (item.getItemId() == R.id.mSignOut) {
             //Sign out of Parse/Back4App
-            //ParseUser.logOut();
+            ParseUser.logOut();
+            Intent intent = new Intent(this, LoginActivity.class);
+            //New things to close current activity to return to login
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
