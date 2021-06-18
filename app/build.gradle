@@ -61,4 +61,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //CardView
     implementation "androidx.cardview:cardview:1.0.0"
+    //SwipeToRefresh
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 }

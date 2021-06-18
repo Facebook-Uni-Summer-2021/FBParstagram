@@ -66,6 +66,9 @@ public class ComposeActivity extends AppCompatActivity {
                     return;
                 }
                 if (photoFile == null || ivPostImage.getDrawable() == null) {
+                    Toast.makeText(ComposeActivity.this,
+                            "This is Instagram, you HAVE to have a photo!",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //Get current user
@@ -187,6 +190,7 @@ public class ComposeActivity extends AppCompatActivity {
                 //Clear out text
                 etDesc.setText("");
                 ivPostImage.setImageDrawable(getDrawable(android.R.drawable.ic_menu_camera));
+                finish();
             }
         });
     }
