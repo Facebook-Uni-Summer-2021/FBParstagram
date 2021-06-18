@@ -13,6 +13,8 @@
         </intent>
     </queries>
 
+
+
     <application
         android:name=".ParseApp"
         android:allowBackup="true"
@@ -21,6 +23,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FBParstagram">
+
+        <!--
+        App may not be able to access file,
+        so set app as content provider
+        Make sure android:authorities matches with
+        FileProvider.getUriForFile in MainActivity
+        -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.codepath.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
+
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
