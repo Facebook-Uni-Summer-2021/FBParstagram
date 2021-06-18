@@ -3,6 +3,7 @@ package com.example.fbparstagram;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 public class ParseApp extends Application {
     private static final String TAG = "ParseApp";
@@ -13,6 +14,9 @@ public class ParseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        //Register parse models
+        ParseObject.registerSubclass(Post.class);
 
         //Parse/Back4App copy-paste from API ref
         //SECURE THESE THINGS!!!
