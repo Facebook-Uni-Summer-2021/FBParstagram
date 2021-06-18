@@ -1,4 +1,4 @@
-package com.example.fbparstagram;
+package com.example.fbparstagram.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;

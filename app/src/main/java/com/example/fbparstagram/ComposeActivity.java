@@ -1,9 +1,5 @@
 package com.example.fbparstagram;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
+import com.example.fbparstagram.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -28,7 +28,7 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class ComposeActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 10;
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_compose);
 
         etDesc = findViewById(R.id.etDesc);
         btnSubmit = findViewById(R.id.btnSubmit);
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String description = etDesc.getText().toString();
                 if (description.isEmpty()) {
-                    Toast.makeText(MainActivity.this,
+                    Toast.makeText(ComposeActivity.this,
                             "Description cannot be empty!",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         //wrap File object into a content provider
         //required for API >= 24
         //See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(MainActivity.this, "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(ComposeActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Return the file target for the photo based on filename
         //File file = new File(mediaStorageDir.getPath() +
-                //File.separator + fileName);
+        //File.separator + fileName);
 
         return new File(mediaStorageDir.getPath() +
                 File.separator + fileName);
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Error while saving: ", e);
-                    Toast.makeText(MainActivity.this,
+                    Toast.makeText(ComposeActivity.this,
                             "Something went wrong while saving",
                             Toast.LENGTH_LONG).show();
                 }
@@ -187,31 +187,6 @@ public class MainActivity extends AppCompatActivity {
                 //Clear out text
                 etDesc.setText("");
                 ivPostImage.setImageDrawable(getDrawable(android.R.drawable.ic_menu_camera));
-            }
-        });
-    }
-
-    /**
-     * Reads all of the posts in Parse/Back4App/DB
-     */
-    private void queryPosts() {
-        //Get the actual data from parse using the object/model
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        //Get extra, specified info
-        query.include(Post.KEY_USER);
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                //Get all Post objects and a ParseException
-                if (e != null) {
-                    //Handle error with retrieving posts
-                    Log.e(TAG, "Issues with pulling: ", e);
-                    return;
-                }
-                for (Post post: posts) {
-                    Log.i(TAG, post.getUser().getUsername() +
-                            " says: " + post.getDescription());
-                }
             }
         });
     }
