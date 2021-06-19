@@ -64,7 +64,6 @@
         app:backgroundTint="#34000000" />
 
     <TextView
-        android:id="@+id/tvIsh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/ivTitle"
@@ -76,5 +75,19 @@
         android:text="ish"
         android:textColor="#000000"
         android:textSize="40sp" />
+
+    <Button
+        android:id="@+id/btnNewAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:text="Sign up"
+        android:textColor="#000000"
+        app:backgroundTint="#34000000" />
 
 </RelativeLayout>

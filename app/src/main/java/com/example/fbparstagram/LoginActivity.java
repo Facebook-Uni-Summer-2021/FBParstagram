@@ -19,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
     Button btnLogin;
+    Button btnNewAccount;
     EditText etUsername;
     EditText etPassword;
 
@@ -47,6 +48,16 @@ public class LoginActivity extends AppCompatActivity {
                 String username = binding.etUsername.getText().toString();
                 String password = binding.etPassword.getText().toString();
                 loginUser(username, password);
+            }
+        });
+
+        //Create new Parstagram account
+        binding.btnNewAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "OnClick Create Account");
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
             }
         });
     }

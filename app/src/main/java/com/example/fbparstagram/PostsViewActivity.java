@@ -97,6 +97,7 @@ public class PostsViewActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.mSignOut) {
             //Sign out of Parse/Back4App
             ParseUser.logOut();
+            //ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
             Intent intent = new Intent(this, LoginActivity.class);
             //New things to close current activity to return to login
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
