@@ -2,7 +2,8 @@
 <androidx.cardview.widget.CardView
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cvPost"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="20dp"
@@ -10,9 +11,7 @@
     android:layout_marginTop="5dp"
     card_view:cardElevation="10dp">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -24,7 +23,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/instagram_user_filled_24" />
+            card_view:srcCompat="@drawable/instagram_user_filled_24" />
 
         <TextView
             android:id="@+id/tvUserName"
@@ -43,7 +42,7 @@
         <ImageView
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_below="@+id/ivUserAvatar"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="0dp"
@@ -63,7 +62,7 @@
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
-            app:srcCompat="@drawable/ufi_heart" />
+            card_view:srcCompat="@drawable/ufi_heart" />
 
         <TextView
             android:id="@+id/tvPostLikeCount"
@@ -78,18 +77,6 @@
             android:textColor="#000000"
             tools:text="1234" />
 
-        <ImageView
-            android:id="@+id/ivComment"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            app:srcCompat="@drawable/ufi_comment"
-            android:layout_toEndOf="@+id/tvPostLikeCount"
-            android:layout_below="@+id/ivImage"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"/>
-
         <TextView
             android:id="@+id/tvPostDescription"
             android:layout_width="match_parent"
@@ -100,6 +87,7 @@
             android:layout_marginTop="0dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="25dp"
+            android:maxLines="4"
             android:textColor="#000000"
             tools:text="Username123 says: This is going to be an example description of an instagram post! I hope you enjoy!!!" />
     </RelativeLayout>

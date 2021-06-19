@@ -1,6 +1,7 @@
 package com.example.fbparstagram.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.fbparstagram.DetailPostActivity;
 import com.example.fbparstagram.R;
 import com.example.fbparstagram.models.Post;
 import com.parse.ParseFile;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -87,6 +92,7 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
         ImageView ivImage;
         ImageView ivUserAvatar;
         ImageView ivPostLike;
+        CardView cvPost;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,11 +102,13 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
             ivImage = itemView.findViewById(R.id.ivImage);
             ivUserAvatar = itemView.findViewById(R.id.ivUserAvatar);
             ivPostLike = itemView.findViewById(R.id.ivPostLike);
+            cvPost = itemView.findViewById(R.id.cvPost);
         }
 
         public void bind(Post post) {
             tvUserName.setText(post.getUser().getUsername());
             tvPostDescription.setText(post.getDescription());
+            tvPostLikeCount.setText(String.valueOf(post.getLikeCount()));
 
             //Set post image
             //Glide.with(context).load(post.getImage()).into(ivImage);
@@ -114,6 +122,17 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
                 public void onClick(View v) {
                     Log.i(TAG, "Like the post!!!");
                     //Will I need to do Parse here for liking?
+                }
+            });
+
+            cvPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i(TAG, "Clicked on post");
+                    //Direct to detail activity for comments
+                    Intent intent = new Intent(context, DetailPostActivity.class);
+                    intent.putExtra("post", Parcels.wrap(post));
+                    context.startActivity(intent);
                 }
             });
         }

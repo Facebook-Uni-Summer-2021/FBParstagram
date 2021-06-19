@@ -63,4 +63,7 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
     //SwipeToRefresh
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    //Parceler
+    implementation 'org.parceler:parceler-api:1.1.12'
+    annotationProcessor 'org.parceler:parceler:1.1.12'
 }
