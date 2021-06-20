@@ -80,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
                             Log.e(TAG, "Error occurred signing in new user: ", e);
                         }
                         Intent intent = new Intent(SignUpActivity.this,
-                                PostsViewActivity.class);
+                                MainActivity.class);
                         startActivity(intent);
                         finish();
                     }

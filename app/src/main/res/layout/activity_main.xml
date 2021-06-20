@@ -4,21 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PostsViewActivity">
+    tools:context=".MainActivity">
+
+    <!--Required for containing fragments-->
+    <FrameLayout
+        android:id="@+id/flContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"/>
 
     <!--Wrap recycler with swipe to refresh-->
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/srPosts"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPosts"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="214dp"
-            tools:layout_editor_absoluteY="421dp" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

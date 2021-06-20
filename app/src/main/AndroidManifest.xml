@@ -20,7 +20,7 @@
         android:theme="@style/Theme.FBParstagram">
         <activity android:name=".DetailPostActivity"/>
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".PostsViewActivity" />
+        <activity android:name=".MainActivity" />
         <!--
         App may not be able to access file,
         so set app as content provider
