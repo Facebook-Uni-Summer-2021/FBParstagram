@@ -2,6 +2,7 @@ package com.example.fbparstagram;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 
 import com.example.fbparstagram.adapters.PostsAdapter;
 import com.example.fbparstagram.models.Post;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -29,6 +31,7 @@ import java.util.List;
 public class PostsViewActivity extends AppCompatActivity {
     private static final String TAG = "PostsViewActivity";
 
+    BottomNavigationView navigationView;
     SwipeRefreshLayout srPosts;
     PostsAdapter adapter;
     RecyclerView rvPosts;
@@ -43,6 +46,24 @@ public class PostsViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_view);
         Log.i(TAG, "in PostsViewActivity");
+
+        //Define bottomnavigation
+        navigationView = findViewById(R.id.bottom_navigation);
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
+                //Android suggests to avoid switch on menu
+                if (item.getItemId() == R.id.action_home) {
+                    Log.i(TAG, "To home");
+                } else if (item.getItemId() == R.id.action_compose) {
+                    Log.i(TAG, "To compose");
+                } else if (item.getItemId() == R.id.action_profile) {
+                    Log.i(TAG, "To profile");
+                }
+                return true;
+            }
+        });
 
         //Create SwipeRefreshListener
         srPosts = findViewById(R.id.srPosts);
@@ -90,7 +111,7 @@ public class PostsViewActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.mCompose) {
+        if (item.getItemId() == R.id.action_compose) {
             //Open new compose activity
             Intent intent = new Intent(PostsViewActivity.this, ComposeActivity.class);
             startActivity(intent);
