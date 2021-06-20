@@ -28,13 +28,11 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.util.List;
 
+/**
+ * No longer in use; see "ComposeFragment"
+ */
 public class ComposeActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-
-
-
-
-
 
     /**
      * Creates an activity to allow posts to be created
@@ -46,10 +44,7 @@ public class ComposeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
-
-
         //queryPosts();
-
     }
 
 

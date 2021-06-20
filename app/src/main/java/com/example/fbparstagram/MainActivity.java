@@ -13,12 +13,14 @@ import android.view.MenuItem;
 
 import com.example.fbparstagram.fragments.ComposeFragment;
 import com.example.fbparstagram.fragments.PostsViewFragment;
+import com.example.fbparstagram.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
 /**
- * Represents the Instagram timeline, where you can view
- * all posts made and saved in Parse/Back4App
+ * Originally represented the Instagram timeline, where you can view
+ * all posts made and saved in Parse/Back4App; currently renamed
+ * to MainActivity to support fragments.
  */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -51,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new ComposeFragment();
                 } else if (item.getItemId() == R.id.action_profile) {
                     Log.i(TAG, "To profile");
-                    //TODO: Update profile fragment
-                    fragment = new ComposeFragment();
+                    fragment = new ProfileFragment();
                 } else
                     //Default fragment
                     fragment = new PostsViewFragment();

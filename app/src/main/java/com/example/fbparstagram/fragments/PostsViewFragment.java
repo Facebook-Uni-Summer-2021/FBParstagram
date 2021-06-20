@@ -76,9 +76,12 @@ public class PostsViewFragment extends Fragment {
     }
 
     /**
-     * Reads all of the posts in Parse/Back4App/DB
+     * Reads all of the posts in Parse/Back4App/DB; due to
+     * the similarity of PostsViewFragment and ProfileFragment,
+     * PostsViewFragment will be the superclass of ProfileFragment
+     * to avoid repetitive code.
      */
-    private void queryPosts() {
+    protected void queryPosts() {
         //Get the actual data from parse using the object/model
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         //Get extra, specified info
