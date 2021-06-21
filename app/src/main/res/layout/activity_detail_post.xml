@@ -16,7 +16,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/ivUserAvatar"
+            android:id="@+id/ivPostUserAvatar"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -34,7 +34,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_toEndOf="@+id/ivUserAvatar"
+            android:layout_toEndOf="@+id/ivPostUserAvatar"
             android:textColor="#000000"
             android:textSize="15sp"
             tools:text="Username123" />
@@ -43,7 +43,7 @@
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_below="@+id/ivUserAvatar"
+            android:layout_below="@+id/ivPostUserAvatar"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="5dp"

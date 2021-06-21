@@ -100,7 +100,7 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
             tvPostLikeCount = itemView.findViewById(R.id.tvPostLikeCount);
             tvPostDescription = itemView.findViewById(R.id.tvPostDescription);
             ivImage = itemView.findViewById(R.id.ivImage);
-            ivUserAvatar = itemView.findViewById(R.id.ivUserAvatar);
+            ivUserAvatar = itemView.findViewById(R.id.ivPostUserAvatar);
             ivPostLike = itemView.findViewById(R.id.ivPostLike);
             cvPost = itemView.findViewById(R.id.cvPost);
         }

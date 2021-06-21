@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.fbparstagram.EndlessRecyclerViewScrollListener;
 import com.example.fbparstagram.R;
 import com.example.fbparstagram.adapters.PostsAdapter;
 import com.example.fbparstagram.models.Post;
@@ -28,6 +29,7 @@ import java.util.List;
 public class PostsViewFragment extends Fragment {
     private static final String TAG = "PostsViewFragment";
 
+    EndlessRecyclerViewScrollListener scrollListener;
     SwipeRefreshLayout srPosts;
     PostsAdapter adapter;
     RecyclerView rvPosts;
@@ -68,8 +70,16 @@ public class PostsViewFragment extends Fragment {
         rvPosts = view.findViewById(R.id.rvPosts);
         adapter = new PostsAdapter(getContext(), posts);
 
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
         rvPosts.setAdapter(adapter);
-        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvPosts.setLayoutManager(manager);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(manager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                //Custom load
+            }
+        };
 
         //Get posts
         queryPosts();
@@ -107,6 +117,7 @@ public class PostsViewFragment extends Fragment {
                 posts.addAll(results);
                 adapter.notifyDataSetChanged();
                 srPosts.setRefreshing(false);
+                scrollListener.resetState();
             }
         });
     }

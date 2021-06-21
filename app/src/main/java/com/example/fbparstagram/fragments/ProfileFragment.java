@@ -1,7 +1,17 @@
 package com.example.fbparstagram.fragments;
 
+import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.example.fbparstagram.R;
 import com.example.fbparstagram.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -12,6 +22,27 @@ import java.util.List;
 
 public class ProfileFragment extends PostsViewFragment {
     private static final String TAG = "ProfileFragment";
+
+    ImageView ivUserAvatar;
+    TextView tvAccountName;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_profile, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        ParseUser user = ParseUser.getCurrentUser();
+        ivUserAvatar = view.findViewById(R.id.ivUserAvatar);
+        tvAccountName = view.findViewById(R.id.tvAccountName);
+
+        tvAccountName.setText(user.getUsername());
+
+        super.onViewCreated(view, savedInstanceState);
+    }
 
     @Override
     protected void queryPosts() {
