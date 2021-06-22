@@ -60,6 +60,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     // Glide v4 uses this new annotation processor -- see https://bumptech.github.io/glide/doc/generatedapi.html
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    //Glide tranformations
+    implementation 'jp.wasabeef:glide-transformations:4.1.0'
     //CardView
     implementation "androidx.cardview:cardview:1.0.0"
     //SwipeToRefresh

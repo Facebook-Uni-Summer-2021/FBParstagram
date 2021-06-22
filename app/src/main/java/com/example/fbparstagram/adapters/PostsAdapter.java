@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.fbparstagram.DetailPostActivity;
 import com.example.fbparstagram.R;
 import com.example.fbparstagram.models.Post;
@@ -23,6 +24,8 @@ import com.parse.ParseFile;
 import org.parceler.Parcels;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /*
 The following are steps to creating an adapter:
@@ -120,9 +123,16 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
             //Set post avatar
             ParseFile avatar = post.getUser().getParseFile("avatar");
             if (avatar != null) {
-                Glide.with(context).load(avatar.getUrl()).into(ivPostUserAvatar);
+                Glide.with(context)
+                        .load(avatar.getUrl())
+                        //.centerCrop()
+                        .transform(new CircleCrop())
+                        .into(ivPostUserAvatar);
             } else {
-                Glide.with(context).load(context.getDrawable(R.drawable.instagram_user_filled_24)).into(ivPostUserAvatar);
+                Glide.with(context)
+                        .load(context.getDrawable(R.drawable.instagram_user_filled_24))
+                        .transform(new CircleCrop())
+                        .into(ivPostUserAvatar);
             }
             //RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(30,30);
             //ivPostUserAvatar.setLayoutParams(new RelativeLayout.LayoutParams(100,100));

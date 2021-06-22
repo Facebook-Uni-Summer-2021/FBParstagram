@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.fbparstagram.R;
 import com.example.fbparstagram.models.Post;
 import com.parse.FindCallback;
@@ -67,9 +68,15 @@ public class ProfileFragment extends PostsViewFragment {
         ParseFile avatar = user.getParseFile("avatar");
         //Log.i(TAG, "Avatar urL: " + avatar.getUrl());
         if (avatar != null) {
-            Glide.with(this).load(avatar.getUrl()).into(ivUserAvatar);
+            Glide.with(this)
+                    .load(avatar.getUrl())
+                    .transform(new CircleCrop())
+                    .into(ivUserAvatar);
         } else {
-            Glide.with(this).load(android.R.drawable.ic_menu_report_image).into(ivUserAvatar);
+            Glide.with(this)
+                    .load(android.R.drawable.ic_menu_report_image)
+                    .transform(new CircleCrop())
+                    .into(ivUserAvatar);
         }
 
         ivUserAvatar.setOnClickListener(new View.OnClickListener() {
