@@ -55,7 +55,7 @@ public class ProfileFragment extends PostsViewFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        user = ParseUser.getCurrentUser();
+        setUser();
         ivUserAvatar = view.findViewById(R.id.ivUserAvatar);
         tvAccountName = view.findViewById(R.id.tvAccountName);
 
@@ -74,7 +74,7 @@ public class ProfileFragment extends PostsViewFragment {
                     .into(ivUserAvatar);
         } else {
             Glide.with(this)
-                    .load(android.R.drawable.ic_menu_report_image)
+                    .load(R.drawable.instagram_user_filled_24)
                     .transform(new CircleCrop())
                     .into(ivUserAvatar);
         }
@@ -98,6 +98,10 @@ public class ProfileFragment extends PostsViewFragment {
 //        Log.i(TAG, "Url: " + file.getUrl());
     }
 
+    protected void setUser() {
+        user = ParseUser.getCurrentUser();
+    }
+
     @Override
     protected void queryPosts() {
         //Get the actual data from parse using the object/model
@@ -107,7 +111,7 @@ public class ProfileFragment extends PostsViewFragment {
 
         //IMPORTANT! Distinction between PostsViewFragment
         // and ProfileFragment
-        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
+        query.whereEqualTo(Post.KEY_USER, user);//ParseUser.getCurrentUser()
 
         //I don't know why, but we need to limit pull
         query.setLimit(20);

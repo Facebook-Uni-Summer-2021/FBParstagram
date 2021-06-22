@@ -68,7 +68,7 @@ public class PostsViewFragment extends Fragment {
         //Set all RecView information
         posts = new ArrayList<>();
         rvPosts = view.findViewById(R.id.rvPosts);
-        adapter = new PostsAdapter(getContext(), posts);
+        adapter = new PostsAdapter(getContext(), posts, getParentFragmentManager());
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         rvPosts.setAdapter(adapter);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,13 +13,21 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.fbparstagram.DetailPostActivity;
+import com.example.fbparstagram.MainActivity;
 import com.example.fbparstagram.R;
+import com.example.fbparstagram.fragments.ComposeFragment;
+import com.example.fbparstagram.fragments.PostsViewFragment;
+import com.example.fbparstagram.fragments.ProfileFragment;
+import com.example.fbparstagram.fragments.UserFragment;
 import com.example.fbparstagram.models.Post;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseFile;
 
 import org.parceler.Parcels;
@@ -53,12 +62,14 @@ getItemCount - returns total items of items list
 public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder> {
     private static final String TAG = "PostsAdapter";
 
+    FragmentManager fragmentManager;
     Context context;
     List<Post> posts;
 
-    public PostsAdapter(Context context, List<Post> posts) {
+    public PostsAdapter(Context context, List<Post> posts, FragmentManager fragmentManager) {
         this.context = context;
         this.posts = posts;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -97,6 +108,7 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
         ImageView ivPostUserAvatar;
         ImageView ivPostLike;
         CardView cvPost;
+        BottomNavigationView navigationView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,6 +118,7 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
             ivImage = itemView.findViewById(R.id.ivImage);
             ivPostUserAvatar = itemView.findViewById(R.id.ivPostUserAvatar);
             ivPostLike = itemView.findViewById(R.id.ivPostLike);
+            navigationView = itemView.findViewById(R.id.bottom_navigation);
             cvPost = itemView.findViewById(R.id.cvPost);
         }
 
@@ -142,6 +155,38 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
                 public void onClick(View v) {
                     Log.i(TAG, "Like the post!!!");
                     //Will I need to do Parse here for liking?
+                }
+            });
+
+            ivPostUserAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i(TAG, "Avatar clicked");
+                    //FragmentManager fragmentManager = getSupportFragmentManager();
+
+                    Fragment fragment = new UserFragment(post.getUser());
+                    //Android suggests to avoid switch on menu
+//                            if (item.getItemId() == R.id.action_home) {
+//                                Log.i(TAG, "To home");
+//                                fragment = new PostsViewFragment();
+//                            } else if (item.getItemId() == R.id.action_compose) {
+//                                Log.i(TAG, "To compose");
+//                                fragment = new ComposeFragment();
+//                            } else if (item.getItemId() == R.id.action_profile) {
+//                                Log.i(TAG, "To profile");
+//                                fragment = new ProfileFragment();
+//                            } else
+//                                //Default fragment
+//                                fragment = new PostsViewFragment();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+
+//                    navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//                        @Override
+//                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//
+//                            return true;
+//                        }
+//                    });
                 }
             });
 
