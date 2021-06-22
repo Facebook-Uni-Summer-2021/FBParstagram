@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -90,7 +91,7 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
         TextView tvPostLikeCount;
         TextView tvPostDescription;
         ImageView ivImage;
-        ImageView ivUserAvatar;
+        ImageView ivPostUserAvatar;
         ImageView ivPostLike;
         CardView cvPost;
 
@@ -100,7 +101,7 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
             tvPostLikeCount = itemView.findViewById(R.id.tvPostLikeCount);
             tvPostDescription = itemView.findViewById(R.id.tvPostDescription);
             ivImage = itemView.findViewById(R.id.ivImage);
-            ivUserAvatar = itemView.findViewById(R.id.ivPostUserAvatar);
+            ivPostUserAvatar = itemView.findViewById(R.id.ivPostUserAvatar);
             ivPostLike = itemView.findViewById(R.id.ivPostLike);
             cvPost = itemView.findViewById(R.id.cvPost);
         }
@@ -117,6 +118,15 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
                 Glide.with(context).load(image.getUrl()).into(ivImage);
             }
             //Set post avatar
+            ParseFile avatar = post.getUser().getParseFile("avatar");
+            if (avatar != null) {
+                Glide.with(context).load(avatar.getUrl()).into(ivPostUserAvatar);
+            } else {
+                Glide.with(context).load(context.getDrawable(R.drawable.instagram_user_filled_24)).into(ivPostUserAvatar);
+            }
+            //RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(30,30);
+            //ivPostUserAvatar.setLayoutParams(new RelativeLayout.LayoutParams(100,100));
+
             ivPostLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

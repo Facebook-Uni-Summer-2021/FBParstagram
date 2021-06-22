@@ -90,15 +90,20 @@ public class MainActivity extends AppCompatActivity {
 //            Intent intent = new Intent(MainActivity.this, ComposeActivity.class);
 //            startActivity(intent);
 //        } else
-        if (item.getItemId() == R.id.mSignOut) {
-            //Sign out of Parse/Back4App
-            ParseUser.logOut();
-            //ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
-            Intent intent = new Intent(this, LoginActivity.class);
-            //New things to close current activity to return to login
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+
+//        if (item.getItemId() == R.id.mSignOut) {
+//            //Sign out of Parse/Back4App
+//            ParseUser.logOut();
+//            //ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+//            Intent intent = new Intent(this, LoginActivity.class);
+//            //New things to close current activity to return to login
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+//        }
+
+        if (item.getItemId() == R.id.action_settings) {
+            Log.i(TAG, "go to settings");
         }
 
         return super.onOptionsItemSelected(item);
