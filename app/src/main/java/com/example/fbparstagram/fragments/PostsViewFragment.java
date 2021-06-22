@@ -121,4 +121,10 @@ public class PostsViewFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        queryPosts();
+    }
 }

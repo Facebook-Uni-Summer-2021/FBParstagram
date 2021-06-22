@@ -28,7 +28,9 @@ import com.example.fbparstagram.fragments.ProfileFragment;
 import com.example.fbparstagram.fragments.UserFragment;
 import com.example.fbparstagram.models.Post;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -59,7 +61,7 @@ onCreateViewHolder - inflates an xml layout and return as ViewHolder
 onBindViewHolder - populates data into view through ViewHolder
 getItemCount - returns total items of items list
 */
-public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder> {
+public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
     private static final String TAG = "PostsAdapter";
 
     FragmentManager fragmentManager;
@@ -90,12 +92,12 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
         return posts.size();
     }
 
-    public void clear () {
+    public void clear() {
         posts.clear();
         notifyDataSetChanged();
     }
 
-    public void addAll (List<Post> list) {
+    public void addAll(List<Post> list) {
         posts.addAll(list);
         notifyDataSetChanged();
     }
@@ -150,11 +152,44 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
             //RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(30,30);
             //ivPostUserAvatar.setLayoutParams(new RelativeLayout.LayoutParams(100,100));
 
+            if (post.getIsLiked()) {
+                ivPostLike.setImageDrawable(context.getDrawable(R.drawable.ufi_heart_active));
+            } else {
+                ivPostLike.setImageDrawable(context.getDrawable(R.drawable.ufi_heart));
+            }
+
             ivPostLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.i(TAG, "Like the post!!!");
                     //Will I need to do Parse here for liking?
+                    if (post.getIsLiked()) {
+                        post.setIsLiked(false);
+                        if (post.getLikeCount() > 0) {
+                            post.setLikeCount(post.getLikeCount() - 1);
+                        }
+                        post.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                //Set the count text to current -1
+                                tvPostLikeCount.setText(String.valueOf(post.getLikeCount()));
+                                //Set the heart to empty
+                                ivPostLike.setImageDrawable(context.getDrawable(R.drawable.ufi_heart));
+                            }
+                        });
+                    } else {
+                        post.setIsLiked(true);
+                        post.setLikeCount(post.getLikeCount() + 1);
+                        post.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                //Set the count text to current +1
+                                tvPostLikeCount.setText(String.valueOf(post.getLikeCount()));
+                                //Set the heart to full
+                                ivPostLike.setImageDrawable(context.getDrawable(R.drawable.ufi_heart_active));
+                            }
+                        });
+                    }
                 }
             });
 
@@ -163,30 +198,8 @@ public class PostsAdapter extends  RecyclerView.Adapter<PostsAdapter.ViewHolder>
                 public void onClick(View v) {
                     Log.i(TAG, "Avatar clicked");
                     //FragmentManager fragmentManager = getSupportFragmentManager();
-
                     Fragment fragment = new UserFragment(post.getUser());
-                    //Android suggests to avoid switch on menu
-//                            if (item.getItemId() == R.id.action_home) {
-//                                Log.i(TAG, "To home");
-//                                fragment = new PostsViewFragment();
-//                            } else if (item.getItemId() == R.id.action_compose) {
-//                                Log.i(TAG, "To compose");
-//                                fragment = new ComposeFragment();
-//                            } else if (item.getItemId() == R.id.action_profile) {
-//                                Log.i(TAG, "To profile");
-//                                fragment = new ProfileFragment();
-//                            } else
-//                                //Default fragment
-//                                fragment = new PostsViewFragment();
                     fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-
-//                    navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//                        @Override
-//                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//
-//                            return true;
-//                        }
-//                    });
                 }
             });
 

@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.example.fbparstagram.databinding.ActivityDetailPostBinding;
 import com.example.fbparstagram.models.Post;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -42,11 +44,46 @@ public class DetailPostActivity extends AppCompatActivity {
         binding.tvPostLikeCount.setText(String.valueOf(post.getLikeCount()));
 
         //Set post avatar
+
+
+        if (post.getIsLiked()) {
+            binding.ivPostLike.setImageDrawable(getDrawable(R.drawable.ufi_heart_active));
+        } else {
+            binding.ivPostLike.setImageDrawable(getDrawable(R.drawable.ufi_heart));
+        }
+
         binding.ivPostLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Like the post!!!");
                 //Will I need to do Parse here for liking?
+                if (post.getIsLiked()) {
+                    post.setIsLiked(false);
+                    if (post.getLikeCount() > 0) {
+                        post.setLikeCount(post.getLikeCount() - 1);
+                    }
+                    post.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            //Set the count text to current -1
+                            binding.tvPostLikeCount.setText(String.valueOf(post.getLikeCount()));
+                            //Set the heart to empty
+                            binding.ivPostLike.setImageDrawable(getDrawable(R.drawable.ufi_heart));
+                        }
+                    });
+                } else {
+                    post.setIsLiked(true);
+                    post.setLikeCount(post.getLikeCount() + 1);
+                    post.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            //Set the count text to current +1
+                            binding.tvPostLikeCount.setText(String.valueOf(post.getLikeCount()));
+                            //Set the heart to full
+                            binding.ivPostLike.setImageDrawable(getDrawable(R.drawable.ufi_heart_active));
+                        }
+                    });
+                }
             }
         });
     }
