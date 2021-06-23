@@ -106,6 +106,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         TextView tvUserName;
         TextView tvPostLikeCount;
         TextView tvPostDescription;
+        TextView tvPostDate;
         ImageView ivImage;
         ImageView ivPostUserAvatar;
         ImageView ivPostLike;
@@ -122,12 +123,18 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             ivPostLike = itemView.findViewById(R.id.ivPostLike);
             navigationView = itemView.findViewById(R.id.bottom_navigation);
             cvPost = itemView.findViewById(R.id.cvPost);
+            tvPostDate = itemView.findViewById(R.id.tvPostDate);
         }
 
         public void bind(Post post) {
             tvUserName.setText(post.getUser().getUsername());
             tvPostDescription.setText(post.getDescription());
             tvPostLikeCount.setText(String.valueOf(post.getLikeCount()));
+            //Assuming the data format remains the same, I split the String of Data by spaces
+            String[] date = post.getCreatedAt().toString().split(" ");
+            String dateContent = date[1] + " " + date[2] + " " + date[date.length - 1];
+            Log.i(TAG, "date: " + dateContent);
+            tvPostDate.setText(dateContent);
 
             //Set post image
             //Glide.with(context).load(post.getImage()).into(ivImage);

@@ -89,10 +89,20 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="5dp"
                 android:maxLines="4"
                 android:textColor="#000000"
                 tools:text="Username123 says: This is going to be an example description of an instagram post! I hope you enjoy!!!" />
+
+            <TextView
+                android:id="@+id/tvPostDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvPostDescription"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="15dp"/>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

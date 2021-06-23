@@ -16,6 +16,8 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.util.Date;
+
 public class DetailPostActivity extends AppCompatActivity {
     private static final String TAG = "DetailPostActivity";
 
@@ -24,6 +26,7 @@ public class DetailPostActivity extends AppCompatActivity {
     TextView tvUserName;
     TextView tvPostLikeCount;
     TextView tvPostDescription;
+    TextView tvPostDate;
     ImageView ivImage;
     ImageView ivUserAvatar;
     ImageView ivPostLike;
@@ -42,6 +45,14 @@ public class DetailPostActivity extends AppCompatActivity {
         binding.tvUserName.setText(post.getUser().getUsername());
         binding.tvPostDescription.setText(post.getDescription());
         binding.tvPostLikeCount.setText(String.valueOf(post.getLikeCount()));
+
+        //Assuming the data format remains the same, I split the String of Data by spaces
+        String[] date = post.getCreatedAt().toString().split(" ");
+        String dateContent = date[1] + " " + date[2] + " " + date[date.length - 1];
+        Log.i(TAG, "date: " + dateContent);
+        binding.tvPostDate.setText(dateContent);
+        //Log.i(TAG, "Date: "  + date);
+        //Log.i(TAG, "Month: " + date.getMonth() + ", Year: " + date.getYear());
 
         //Set post avatar
 
