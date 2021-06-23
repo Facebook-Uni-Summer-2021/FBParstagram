@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.fbparstagram.ComposeActivity;
@@ -41,6 +42,7 @@ public class ComposeFragment extends Fragment {
     private File photoFile;
     public String photoFileName = "photo.jpg";
 
+    ProgressBar pbUpload;
     EditText etDesc;
     Button btnCaptureImage;
     Button btnSubmit;
@@ -75,6 +77,7 @@ public class ComposeFragment extends Fragment {
         etDesc = view.findViewById(R.id.etDesc);
         btnSubmit = view.findViewById(R.id.btnSubmit);
         ivPostImage = view.findViewById(R.id.ivPostImage);
+        pbUpload = view.findViewById(R.id.pbUpload);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +96,7 @@ public class ComposeFragment extends Fragment {
                     return;
                 }
                 //Get current user
+                pbUpload.setVisibility(ProgressBar.VISIBLE);
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
             }
@@ -211,6 +215,7 @@ public class ComposeFragment extends Fragment {
                 //Clear out text
                 etDesc.setText("");
                 ivPostImage.setImageDrawable(getContext().getDrawable(android.R.drawable.ic_menu_camera));
+                pbUpload.setVisibility(ProgressBar.INVISIBLE);
                 //finish();
             }
         });
