@@ -13,18 +13,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.fbparstagram.EndlessRecyclerViewScrollListener;
 import com.example.fbparstagram.R;
 import com.example.fbparstagram.adapters.PostsAdapter;
+import com.example.fbparstagram.models.Comment;
 import com.example.fbparstagram.models.Post;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Headers;
 
 public class PostsViewFragment extends Fragment {
     private static final String TAG = "PostsViewFragment";
@@ -49,6 +56,8 @@ public class PostsViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Log.i(TAG, "OnCreate");
 
         //Create SwipeRefreshListener
         srPosts = view.findViewById(R.id.srPosts);
@@ -77,9 +86,11 @@ public class PostsViewFragment extends Fragment {
         scrollListener = new EndlessRecyclerViewScrollListener(manager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                //Custom load
+                Log.i(TAG, "onLoadMore");
+                //queryPosts();
             }
         };
+        rvPosts.addOnScrollListener(scrollListener);
 
         //Get posts
         queryPosts();
@@ -97,7 +108,7 @@ public class PostsViewFragment extends Fragment {
         //Get extra, specified info
         query.include(Post.KEY_USER);
         //I don't know why, but we need to limit pull
-        query.setLimit(20);
+        query.setLimit(5);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
             @Override

@@ -2,6 +2,7 @@ package com.example.fbparstagram;
 
 import android.app.Application;
 
+import com.example.fbparstagram.models.Comment;
 import com.example.fbparstagram.models.Post;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -17,7 +18,9 @@ public class ParseApp extends Application {
         super.onCreate();
 
         //Register parse models
+        //VERY IMPORTANT
         ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Comment.class);
 
         //Parse/Back4App copy-paste from API ref
         //SECURE THESE THINGS!!!

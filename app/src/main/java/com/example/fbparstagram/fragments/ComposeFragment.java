@@ -25,13 +25,23 @@ import android.widget.Toast;
 
 import com.example.fbparstagram.ComposeActivity;
 import com.example.fbparstagram.R;
+import com.example.fbparstagram.models.Comment;
 import com.example.fbparstagram.models.Post;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -194,7 +204,7 @@ public class ComposeFragment extends Fragment {
      * @param description Post decsription.
      * @param currentUser Current user.
      */
-    private void savePost(String description, ParseUser currentUser, File photoFile) {
+    private void savePost(String description, ParseUser currentUser, File photoFile) {//remove THROWS
         Post post = new Post();
         post.setDescription(description);
         post.setUser(currentUser);
@@ -219,5 +229,7 @@ public class ComposeFragment extends Fragment {
                 //finish();
             }
         });
+
+
     }
 }

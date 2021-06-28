@@ -5,9 +5,8 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
 import org.parceler.Parcel;
-
-import java.util.Date;
 
 /**
  * Represents an object in Parse/Back4App
@@ -22,6 +21,7 @@ public class Post extends ParseObject {
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_LIKE_COUNT = "likeCount";
     public static final String KEY_IS_LIKED = "isLiked";
+    //public static final String KEY_OBJECT_ID = "objectId";
 
     public String getDescription () {
         return getString(KEY_DESCRIPTION);
@@ -54,6 +54,11 @@ public class Post extends ParseObject {
     public boolean getIsLiked () { return getBoolean(KEY_IS_LIKED); }
 
     public void setIsLiked (boolean isLiked) { put(KEY_IS_LIKED, isLiked); }
+
+//    public String getObjectId () { return getString(KEY_OBJECT_ID); }
+//
+//    //No setter for Post ID
+//    public void setObjectId (String objectId) { put(KEY_OBJECT_ID, objectId); }
 
 //    //May be incorrect
 //    public String getDate () {

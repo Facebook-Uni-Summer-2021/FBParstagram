@@ -16,7 +16,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/ivPostUserAvatar"
+            android:id="@+id/ivCommentUserAvatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
@@ -26,7 +26,7 @@
             card_view:srcCompat="@drawable/instagram_user_filled_24" />
 
         <TextView
-            android:id="@+id/tvUserName"
+            android:id="@+id/tvCommentUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -34,7 +34,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_toEndOf="@+id/ivPostUserAvatar"
+            android:layout_toEndOf="@+id/ivCommentUserAvatar"
             android:textColor="#000000"
             android:textSize="15sp"
             tools:text="Username123" />
@@ -43,7 +43,7 @@
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ivPostUserAvatar"
+            android:layout_below="@+id/ivCommentUserAvatar"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="5dp"
@@ -81,16 +81,16 @@
             android:id="@+id/ivComment"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            card_view:srcCompat="@drawable/ufi_comment"
-            android:layout_toEndOf="@+id/tvPostLikeCount"
             android:layout_below="@+id/ivImage"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:layout_toEndOf="@+id/tvPostLikeCount"
+            card_view:srcCompat="@drawable/ufi_comment" />
 
         <TextView
-            android:id="@+id/tvPostDescription"
+            android:id="@+id/tvCommentText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivPostLike"
@@ -103,14 +103,14 @@
             tools:text="Username123 says: This is going to be an example description of an instagram post! I hope you enjoy!!!" />
 
         <TextView
-            android:id="@+id/tvPostDate"
+            android:id="@+id/tvCommentDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvPostDescription"
+            android:layout_below="@+id/tvCommentText"
             android:layout_marginStart="5dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginBottom="15dp"/>
+            android:layout_marginBottom="15dp" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

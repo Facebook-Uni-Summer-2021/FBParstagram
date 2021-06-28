@@ -2,26 +2,34 @@ package com.example.fbparstagram;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.fbparstagram.adapters.CommentsAdapter;
 import com.example.fbparstagram.databinding.ActivityDetailPostBinding;
+import com.example.fbparstagram.models.Comment;
 import com.example.fbparstagram.models.Post;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DetailPostActivity extends AppCompatActivity {
     private static final String TAG = "DetailPostActivity";
-
-    Post post;
 
     TextView tvUserName;
     TextView tvPostLikeCount;
@@ -32,6 +40,11 @@ public class DetailPostActivity extends AppCompatActivity {
     ImageView ivPostLike;
     CardView cvPost;
 
+    Post post;
+    List<Comment> comments;
+    CommentsAdapter adapter;
+    RecyclerView rvComments;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +53,7 @@ public class DetailPostActivity extends AppCompatActivity {
         setContentView(view);
 
         post = Parcels.unwrap(getIntent().getParcelableExtra("post"));
+
         //I did not include the image as a took too much space;
         // to mimic Instagram, the detail view only has the description and comments
         binding.tvUserName.setText(post.getUser().getUsername());
@@ -54,8 +68,16 @@ public class DetailPostActivity extends AppCompatActivity {
         //Log.i(TAG, "Date: "  + date);
         //Log.i(TAG, "Month: " + date.getMonth() + ", Year: " + date.getYear());
 
-        //Set post avatar
+        comments = new ArrayList<>();
+        rvComments = findViewById(R.id.rvComments);
+        adapter = new CommentsAdapter(this, comments);
 
+        rvComments.setAdapter(adapter);
+        rvComments.setLayoutManager(new LinearLayoutManager(this));
+
+        //Create refresh layout
+
+        //TODO: set post avatar
 
         if (post.getIsLiked()) {
             binding.ivPostLike.setImageDrawable(getDrawable(R.drawable.ufi_heart_active));
@@ -95,6 +117,73 @@ public class DetailPostActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
+        });
+
+        binding.btnReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "btnReply");
+                String message = binding.etComment.getText().toString();
+                if (message.isEmpty()) {
+                    Log.i(TAG, "message required");
+                    Toast.makeText(DetailPostActivity.this,
+                            "Message must have content.",
+                            Toast.LENGTH_SHORT).show();
+                }
+                //Test comment
+                Comment comment = new Comment();
+                comment.setText(message);
+                comment.setUser(ParseUser.getCurrentUser());
+                comment.setPostedId(post.getObjectId());
+                comment.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Error: " + e);
+                            return;
+                        }
+                        Log.i(TAG, "Comment saved");
+                        binding.etComment.setText("");
+
+                        Log.i(TAG, "Username: " + comment.getUser().getUsername());
+                        Log.i(TAG, "COmment: " + comment.getText());
+
+                        //Refresh comments
+
+                    }
+                });
+
+            }
+        });
+
+        queryComments();
+    }
+
+    private void queryComments() {
+        ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
+        query.whereEqualTo("postedId", post.getObjectId());
+        query.include(Comment.KEY_USER);
+        //No limit...yet :(
+        query.addDescendingOrder(Comment.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<Comment>() {
+            @Override
+            public void done(List<Comment> results, ParseException e) {
+                if (e != null) {
+                    //Handle error with retrieving posts
+                    Log.e(TAG, "Issues with pulling: ", e);
+                    return;
+                }
+                for (Comment comment : results) {
+                    Log.i(TAG, comment.getUser().getUsername() +
+                            " says: " + comment.getText());
+                }
+                adapter.clear();
+                comments.clear();
+                comments.addAll(results);
+                adapter.notifyDataSetChanged();
+                //srPosts.setRefreshing(false);
+                //scrollListener.resetState();
             }
         });
     }

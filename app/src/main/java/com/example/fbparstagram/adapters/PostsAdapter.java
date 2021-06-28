@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,11 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.fbparstagram.DetailPostActivity;
-import com.example.fbparstagram.MainActivity;
 import com.example.fbparstagram.R;
-import com.example.fbparstagram.fragments.ComposeFragment;
-import com.example.fbparstagram.fragments.PostsViewFragment;
-import com.example.fbparstagram.fragments.ProfileFragment;
 import com.example.fbparstagram.fragments.UserFragment;
 import com.example.fbparstagram.models.Post;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -35,8 +29,6 @@ import com.parse.SaveCallback;
 import org.parceler.Parcels;
 
 import java.util.List;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /*
 The following are steps to creating an adapter:
@@ -110,20 +102,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         ImageView ivImage;
         ImageView ivPostUserAvatar;
         ImageView ivPostLike;
+        ImageView ivComment;
         CardView cvPost;
         BottomNavigationView navigationView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvUserName = itemView.findViewById(R.id.tvUserName);
+            tvUserName = itemView.findViewById(R.id.tvCommentUserName);
             tvPostLikeCount = itemView.findViewById(R.id.tvPostLikeCount);
-            tvPostDescription = itemView.findViewById(R.id.tvPostDescription);
+            tvPostDescription = itemView.findViewById(R.id.tvCommentText);
             ivImage = itemView.findViewById(R.id.ivImage);
-            ivPostUserAvatar = itemView.findViewById(R.id.ivPostUserAvatar);
+            ivPostUserAvatar = itemView.findViewById(R.id.ivCommentUserAvatar);
             ivPostLike = itemView.findViewById(R.id.ivPostLike);
+            ivComment = itemView.findViewById(R.id.ivComment);
             navigationView = itemView.findViewById(R.id.bottom_navigation);
             cvPost = itemView.findViewById(R.id.cvPost);
-            tvPostDate = itemView.findViewById(R.id.tvPostDate);
+            tvPostDate = itemView.findViewById(R.id.tvCommentDate);
         }
 
         public void bind(Post post) {
@@ -214,6 +208,17 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     Log.i(TAG, "Clicked on post");
+                    //Direct to detail activity for comments
+                    Intent intent = new Intent(context, DetailPostActivity.class);
+                    intent.putExtra("post", Parcels.wrap(post));
+                    context.startActivity(intent);
+                }
+            });
+
+            ivComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i(TAG, "Clicked on comment");
                     //Direct to detail activity for comments
                     Intent intent = new Intent(context, DetailPostActivity.class);
                     intent.putExtra("post", Parcels.wrap(post));
