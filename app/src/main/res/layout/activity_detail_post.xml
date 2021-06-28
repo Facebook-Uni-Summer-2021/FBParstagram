@@ -98,11 +98,12 @@
                 android:id="@+id/tvPostDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvCommentText"
+                android:layout_below="@+id/tvPostDescription"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="15dp"
+                tools:text="April 1" />
 
             <ImageView
                 android:id="@+id/ivDetailMessage"

@@ -18,10 +18,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.example.fbparstagram.EndlessRecyclerViewScrollListener;
 import com.example.fbparstagram.R;
+import com.example.fbparstagram.adapters.PostsAdapter;
+import com.example.fbparstagram.adapters.ProfilePostsAdapter;
 import com.example.fbparstagram.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -31,6 +38,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -42,6 +50,7 @@ public class ProfileFragment extends PostsViewFragment {
     private File photoFile;
     public String photoFileName = "photo.jpg";
 
+    ProfilePostsAdapter adapter;
     ImageView ivUserAvatar;
     TextView tvAccountName;
     ParseUser user;
@@ -60,6 +69,9 @@ public class ProfileFragment extends PostsViewFragment {
         tvAccountName = view.findViewById(R.id.tvAccountName);
 
         tvAccountName.setText(user.getUsername());
+
+
+
         //Log.i(TAG, "Here: " + user.getParseFile("avatar"));
 
         //ParseFile temp = ParseUser.getCurrentUser().getParseFile("avatar");
@@ -92,7 +104,46 @@ public class ProfileFragment extends PostsViewFragment {
             }
         });
 
-        super.onViewCreated(view, savedInstanceState);
+        //Due to the amount of work required, replace
+        // super call with renovated RecView
+        //super.onViewCreated(view, savedInstanceState);
+
+        //Create SwipeRefreshListener
+        srPosts = view.findViewById(R.id.srPosts);
+        srPosts.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                queryPosts();
+            }
+        });
+
+        //Set color of refresh symbol
+        srPosts.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        //Set all RecView information
+        posts = new ArrayList<>();
+        rvPosts = view.findViewById(R.id.rvPosts);
+        adapter = new ProfilePostsAdapter(getContext(), posts);
+
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 3);
+        rvPosts.setAdapter(adapter);
+        rvPosts.setLayoutManager(manager);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(manager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.i(TAG, "onLoadMore");
+                //queryPosts();
+            }
+        };
+        rvPosts.addOnScrollListener(scrollListener);
+
+        //Get posts
+        queryPosts();
+
 
 //        ParseFile file = posts.get(0).getUser().getParseFile("avatar");
 //        Log.i(TAG, "Url: " + file.getUrl());
