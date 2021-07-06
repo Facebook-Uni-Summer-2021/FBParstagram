@@ -137,6 +137,7 @@ public class ProfileFragment extends PostsViewFragment {
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.i(TAG, "onLoadMore");
                 //queryPosts();
+                queryPostsSkip(totalItemsCount);
             }
         };
         rvPosts.addOnScrollListener(scrollListener);
@@ -182,6 +183,43 @@ public class ProfileFragment extends PostsViewFragment {
                 }
                 adapter.clear();
                 posts.clear();
+                posts.addAll(results);
+                adapter.notifyDataSetChanged();
+                srPosts.setRefreshing(false);
+            }
+        });
+    }
+
+    @Override
+    protected void queryPostsSkip(int skip) {
+        //Get the actual data from parse using the object/model
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        //Get extra, specified info
+        query.include(Post.KEY_USER);
+
+        //IMPORTANT! Distinction between PostsViewFragment
+        // and ProfileFragment
+        query.whereEqualTo(Post.KEY_USER, user);//ParseUser.getCurrentUser()
+
+        //I don't know why, but we need to limit pull
+        query.setLimit(20);
+        query.setSkip(skip);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> results, ParseException e) {
+                //Get all Post objects and a ParseException
+                if (e != null) {
+                    //Handle error with retrieving posts
+                    Log.e(TAG, "Issues with pulling: ", e);
+                    return;
+                }
+                for (Post post: results) {
+                    Log.i(TAG, post.getUser().getUsername() +
+                            " says: " + post.getDescription());
+                }
+                //adapter.clear();
+                //posts.clear();
                 posts.addAll(results);
                 adapter.notifyDataSetChanged();
                 srPosts.setRefreshing(false);

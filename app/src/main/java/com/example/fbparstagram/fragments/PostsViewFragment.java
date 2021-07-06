@@ -41,6 +41,7 @@ public class PostsViewFragment extends Fragment {
     PostsAdapter adapter;
     RecyclerView rvPosts;
     List<Post> posts;
+    //int skip;
 
     public PostsViewFragment() {
         // Required empty public constructor
@@ -86,8 +87,8 @@ public class PostsViewFragment extends Fragment {
         scrollListener = new EndlessRecyclerViewScrollListener(manager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.i(TAG, "onLoadMore");
-                //queryPosts();
+                Log.i(TAG, "onLoadMore - page: " + page + ", total: " + totalItemsCount);
+                queryPostsSkip(totalItemsCount);
             }
         };
         rvPosts.addOnScrollListener(scrollListener);
@@ -108,7 +109,7 @@ public class PostsViewFragment extends Fragment {
         //Get extra, specified info
         query.include(Post.KEY_USER);
         //I don't know why, but we need to limit pull
-        query.setLimit(5);
+        query.setLimit(10);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
             @Override
@@ -133,9 +134,42 @@ public class PostsViewFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        queryPosts();
+    protected void queryPostsSkip(int skip) {
+        //Get the actual data from parse using the object/model
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        //Get extra, specified info
+        query.include(Post.KEY_USER);
+        //I don't know why, but we need to limit pull
+        query.setLimit(10);
+        query.setSkip(skip);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> results, ParseException e) {
+                //Get all Post objects and a ParseException
+                if (e != null) {
+                    //Handle error with retrieving posts
+                    Log.e(TAG, "Issues with pulling: ", e);
+                    return;
+                }
+                for (Post post: results) {
+                    Log.i(TAG, post.getUser().getUsername() +
+                            " says: " + post.getDescription());
+                }
+                //adapter.clear();
+                //posts.clear();
+                posts.addAll(results);
+                adapter.notifyDataSetChanged();
+                srPosts.setRefreshing(false);
+                //Bugged out my RecView when in range of ScrollView's visibleThreshold
+                //scrollListener.resetState();
+            }
+        });
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        queryPosts();
+//    }
 }
