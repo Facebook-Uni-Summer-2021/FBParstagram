@@ -51,8 +51,9 @@ public class ProfilePostsViewFragment extends PostsViewFragment {
                 adapter.notifyDataSetChanged();
                 srPosts.setRefreshing(false);
                 //scrollListener.resetState();
-                //rvPosts.scrollToPosition(position);
-                rvPosts.smoothScrollToPosition(position);
+                rvPosts.scrollToPosition(position);
+
+                //rvPosts.smoothScrollToPosition(position);
             }
         });
     }
@@ -89,7 +90,7 @@ public class ProfilePostsViewFragment extends PostsViewFragment {
                 //Bugged out my RecView when in range of ScrollView's visibleThreshold
                 //scrollListener.resetState();
                 //rvPosts.scrollToPosition(position);
-                rvPosts.smoothScrollToPosition(position);
+                //rvPosts.smoothScrollToPosition(position);
             }
         });
     }

@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.action_settings) {
             Log.i(TAG, "go to settings");
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
