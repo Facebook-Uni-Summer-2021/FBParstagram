@@ -21,11 +21,13 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.fbparstagram.DetailPostActivity;
 import com.example.fbparstagram.R;
 import com.example.fbparstagram.fragments.PostsViewFragment;
+import com.example.fbparstagram.fragments.ProfilePostsViewFragment;
 import com.example.fbparstagram.fragments.UserFragment;
 import com.example.fbparstagram.models.Post;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
@@ -38,10 +40,14 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostsAdapte
 
     Context context;
     List<Post> posts;
+    FragmentManager fragmentManager;
+    ParseUser user;
 
-    public ProfilePostsAdapter (Context context, List<Post> posts) {
+    public ProfilePostsAdapter (Context context, List<Post> posts, FragmentManager fragmentManager, ParseUser user) {
         this.context = context;
         this.posts = posts;
+        this.fragmentManager = fragmentManager;
+        this.user = user;
     }
 
     @NonNull
@@ -92,10 +98,14 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostsAdapte
                 @Override
                 public void onClick(View v) {
                     Log.i(TAG, "Clicked on post");
+                    Log.i(TAG, "Pos: " + getAdapterPosition() + ", " + getLayoutPosition());
                     //Direct to detail activity for comments
-                    Intent intent = new Intent(context, DetailPostActivity.class);
-                    intent.putExtra("post", Parcels.wrap(post));
-                    context.startActivity(intent);
+//                    Intent intent = new Intent(context, DetailPostActivity.class);
+//                    intent.putExtra("post", Parcels.wrap(post));
+//                    context.startActivity(intent);
+
+                    Fragment fragment = new ProfilePostsViewFragment(user, getAdapterPosition());
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 }
             });
         }

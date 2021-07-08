@@ -97,6 +97,10 @@ public class PostsViewFragment extends Fragment {
         queryPosts();
     }
 
+//    protected void setScroll () {
+//
+//    }
+
     /**
      * Reads all of the posts in Parse/Back4App/DB; due to
      * the similarity of PostsViewFragment and ProfileFragment,
@@ -129,7 +133,7 @@ public class PostsViewFragment extends Fragment {
                 posts.addAll(results);
                 adapter.notifyDataSetChanged();
                 srPosts.setRefreshing(false);
-                scrollListener.resetState();
+                //scrollListener.resetState();
             }
         });
     }

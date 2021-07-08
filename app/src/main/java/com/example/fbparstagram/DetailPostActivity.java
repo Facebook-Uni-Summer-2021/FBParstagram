@@ -157,10 +157,14 @@ public class DetailPostActivity extends AppCompatActivity {
             }
         });
 
+        //Set post image onClick to hide and unhide image
+
         queryComments();
     }
 
     private void queryComments() {
+        //Consider changing design of comments; also think about updating recview when
+        // new comment is made
         ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
         query.whereEqualTo("postedId", post.getObjectId());
         query.include(Comment.KEY_USER);

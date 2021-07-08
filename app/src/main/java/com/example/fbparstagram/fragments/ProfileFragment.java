@@ -126,7 +126,7 @@ public class ProfileFragment extends PostsViewFragment {
         //Set all RecView information
         posts = new ArrayList<>();
         rvPosts = view.findViewById(R.id.rvPosts);
-        adapter = new ProfilePostsAdapter(getContext(), posts);
+        adapter = new ProfilePostsAdapter(getContext(), posts, getParentFragmentManager(), user);
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), 3);
         rvPosts.setAdapter(adapter);
