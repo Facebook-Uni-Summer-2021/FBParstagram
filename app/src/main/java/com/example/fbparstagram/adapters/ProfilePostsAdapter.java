@@ -104,7 +104,7 @@ public class ProfilePostsAdapter extends RecyclerView.Adapter<ProfilePostsAdapte
 //                    intent.putExtra("post", Parcels.wrap(post));
 //                    context.startActivity(intent);
 
-                    Fragment fragment = new ProfilePostsViewFragment(user, getAdapterPosition());
+                    Fragment fragment = new ProfilePostsViewFragment(getAdapterPosition(), user, posts);
                     fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 }
             });

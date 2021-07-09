@@ -94,13 +94,18 @@ public class ProfileFragment extends PostsViewFragment {
         ivUserAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Open the camera
-                Log.i(TAG, "Launching camera");
+                Log.i(TAG, "onClick");
+                Log.i(TAG, "User: " + user.getUsername() + ", current: " + ParseUser.getCurrentUser().getUsername());
+
+                if (user.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+                    //Open the camera
+                    Log.i(TAG, "Launching camera");
                 /*
                 Potentially create a modal similar to the Twitter compose
                 to create a nicer profile image thingy.
                  */
-                launchCamera();
+                    launchCamera();
+                }
             }
         });
 
@@ -233,7 +238,7 @@ public class ProfileFragment extends PostsViewFragment {
     /**
      * Helper method to launch the device's camera.
      */
-    private void launchCamera() {
+    protected void launchCamera() {
         //Create Intent to take a picture and return control
         // to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -243,7 +248,7 @@ public class ProfileFragment extends PostsViewFragment {
         //wrap File object into a content provider
         //required for API >= 24
         //See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.fbucodepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent
